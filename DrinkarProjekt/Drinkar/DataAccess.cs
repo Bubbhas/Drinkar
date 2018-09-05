@@ -12,7 +12,7 @@ namespace Drinkar
     {
         string conString = @"Server=(localdb)\mssqllocaldb;Database=Drinks";
 
-        private static int CountMatchingIngrediences(List<Cocktails> allCocktails, List<string> ingredients)
+        private static int CountMatchingIngrediences(List<Drink> allCocktails, List<string> ingredients)
         {
             int qty = 0;
             int index = -1;
@@ -32,13 +32,13 @@ namespace Drinkar
         }
 
         //Räknar antalet matchningar
-        private static int MatchingIngredients(List<Cocktails> allCocktails, List<string> ingredients)
+        private static int MatchingIngredients(List<Drink> allCocktails, List<string> ingredients)
         {
             var qtyMatch = allCocktails.Intersect(ingredients);
             return qtyMatch.Count();
         }
 
-        internal List<Cocktails> GetAllDrinksWithIngredient(List<int> ingredientId)
+        internal List<Drink> GetAllDrinksWithIngredient(List<int> ingredientId)
         {
 
             string s = string.Join(",", ingredientId);
@@ -49,7 +49,7 @@ namespace Drinkar
                            Left Join Ingredient ON Ingredient.Id = IngredientToDrink.IngredientId
                            Where ID IN (" + s + ")";
 
-            var result = new List<Cocktails>();
+            var result = new List<Drink>();
 
             using (SqlConnection connection = new SqlConnection(conString))
             using (SqlCommand command = new SqlCommand(sql, connection))
@@ -64,7 +64,7 @@ namespace Drinkar
                     string name = reader.GetSqlString(1).Value;
                     string description = reader.GetSqlString(2).Value;
 
-                    var drink = new Cocktails();
+                    var drink = new Drink();
                     drink.Id = id;
                     drink.Name = name;
                     drink.Description = description;

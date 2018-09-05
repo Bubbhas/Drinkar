@@ -46,7 +46,7 @@ namespace Drinkar
 
                 var dataAccess = new DataAccess();
 
-                Cocktails matchedDrinks = dataAccess.GetCocktailNameById(answer);
+                Drink matchedDrinks = dataAccess.GetCocktailNameById(answer);
 
                 Console.WriteLine(dataAccess.GetCocktailNameById(description));
             }
@@ -76,7 +76,7 @@ namespace Drinkar
             Console.Clear();
 
             var dataAccess = new DataAccess();
-            List<Cocktails> matched = dataAccess.GetAllMatchedCocktails();
+            List<Drink> matched = dataAccess.GetAllMatchedCocktails();
 
             foreach (var drink in matched)
             {
