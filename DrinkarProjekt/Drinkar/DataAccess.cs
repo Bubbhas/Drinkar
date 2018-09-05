@@ -12,7 +12,6 @@ namespace Drinkar
     {
         string conString = @"Server=(localdb)\mssqllocaldb;Database=Drinks";
 
-       
 
         internal List<Drink> GetAllDrinksWithIngredient(List<int> ingredientId)
         {
