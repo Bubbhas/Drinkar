@@ -19,11 +19,15 @@ namespace Drinkar
             Console.WriteLine("Welcome!\nAre you thirsty?    Of course you are!\n");
             Console.WriteLine("Let us recommend you a cocktail depending on what you have!");
             Console.Write("Enter ingredients separated with a comma(,): ");
-            string input = Console.ReadLine(); ////List<string> usersIngredients = new List<string>();
+     //       string line = Console.ReadLine();
+            string line = "Ljus rom, Sockerlag, Kuku";
+            var input = line.Split(','); //new string[] { "Ljus rom", "Sockerlag", "Kuku" };
+
+            ////List<string> usersIngredients = new List<string>();
             Console.WriteLine("Nice! You can make following drinks : ");
 
-            ShowAllMatchedDrinks(matched);
-            if (matched != 0)
+            List<Drink> matched = ShowAllMatchedDrinks (input);
+            if (matched.Count != 0)
             {
                 ChooseDrink();
                 Console.ReadKey();
@@ -44,45 +48,45 @@ namespace Drinkar
                 Console.WriteLine("Choose the number of a cocktail you want to make:");
                 int answer = int.Parse(Console.ReadLine());
 
-                var dataAccess = new DataAccess();
+                //var dataAccess = new DataAccess();
 
-                Drink matchedDrinks = dataAccess.GetCocktailNameById(answer);
+                //Drink matchedDrinks = dataAccess.GetCocktailNameById(answer);
 
-                Console.WriteLine(dataAccess.GetCocktailNameById(description));
+                //Console.WriteLine(dataAccess.GetCocktailNameById(description));
             }
             else if (response == "b")
             {
-                Console.WriteLine("What kind of drink do you want? /n(a) Sweet /n(b) Sour /n(c) Sexy ");
+                Console.WriteLine("What kind of drink do you want? /n(a) Sweet /n(b) Sour /n(c) Extra alcohol ");
                 string cocktailKind = Console.ReadLine();
-                if (cocktailKind == "a")
-                    Console.WriteLine(DataAccess.GetCocktailByKind(sweet));
-                else if (cocktailKind == "b")
-                    Console.WriteLine(DataAccess.GetCocktailByKind(sour));
-                else if (cocktailKind == "c")
-                    Console.WriteLine(DataAccess.GetCocktailByKind(sexy));
-                else
-                {
-                    Console.Clear();
-                    ChooseDrink();
-                }
+                //if (cocktailKind == "a")
+                //    Console.WriteLine(DataAccess.GetCocktailByKind(sweet));
+                //else if (cocktailKind == "b")
+                //    Console.WriteLine(DataAccess.GetCocktailByKind(sour));
+                //else if (cocktailKind == "c")
+                //    Console.WriteLine(DataAccess.GetCocktailByKind());extraAlcohol
+                //else
+                //{
+                //    Console.Clear();
+                //    ChooseDrink();
+                //}
             }
             else
             Console.Clear();
             PageMainMenu();
         }
 
-        private void ShowAllMatchedDrinks()
+        private List<Drink> ShowAllMatchedDrinks(string[] input)
         {
             Console.Clear();
 
             var dataAccess = new DataAccess();
-            List<Drink> matched = dataAccess.GetAllMatchedCocktails();
+            List<Drink> matched = dataAccess.GetAllDrinksWithIngredient(input);
 
             foreach (var drink in matched)
             {
                 Console.WriteLine(drink.Id + " " + drink.Name + " " + drink.Description);
             }
-
+            return matched;
         }
 
     }
