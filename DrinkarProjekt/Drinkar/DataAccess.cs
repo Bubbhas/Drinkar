@@ -12,33 +12,9 @@ namespace Drinkar
     {
         string conString = @"Server=(localdb)\mssqllocaldb;Database=Drinks";
 
-        private static int CountMatchingIngrediences(List<Cocktails> allCocktails, List<string> ingredients)
-        {
-            int qty = 0;
-            int index = -1;
+       
 
-            for (int i = 0; i < allCocktails.Count; i++)
-            {
-                var SplitItem = allCocktails[i].Name;
-                int currentQty = MatchingIngredients(SplitItem, ingredients);
-
-                if (currentQty > 2)
-                {
-                    qty = currentQty;
-                    index = i;
-                }
-            }
-            return index;
-        }
-
-        //Räknar antalet matchningar
-        private static int MatchingIngredients(List<Cocktails> allCocktails, List<string> ingredients)
-        {
-            var qtyMatch = allCocktails.Intersect(ingredients);
-            return qtyMatch.Count();
-        }
-
-        internal List<Cocktails> GetAllDrinksWithIngredient(List<int> ingredientId)
+        internal List<Drink> GetAllDrinksWithIngredient(List<int> ingredientId)
         {
 
             string s = string.Join(",", ingredientId);
@@ -49,7 +25,7 @@ namespace Drinkar
                            Left Join Ingredient ON Ingredient.Id = IngredientToDrink.IngredientId
                            Where ID IN (" + s + ")";
 
-            var result = new List<Cocktails>();
+            var result = new List<Drink>();
 
             using (SqlConnection connection = new SqlConnection(conString))
             using (SqlCommand command = new SqlCommand(sql, connection))
@@ -64,7 +40,7 @@ namespace Drinkar
                     string name = reader.GetSqlString(1).Value;
                     string description = reader.GetSqlString(2).Value;
 
-                    var drink = new Cocktails();
+                    var drink = new Drink();
                     drink.Id = id;
                     drink.Name = name;
                     drink.Description = description;
