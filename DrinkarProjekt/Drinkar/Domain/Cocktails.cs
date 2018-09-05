@@ -8,8 +8,7 @@ namespace Drinkar.Domain
 {
     public class Cocktails
     {
-        public int DrinkId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public string Ingredient1 { get; set; }
     }
 }
