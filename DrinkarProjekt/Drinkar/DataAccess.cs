@@ -12,31 +12,7 @@ namespace Drinkar
     {
         string conString = @"Server=(localdb)\mssqllocaldb;Database=Drinks";
 
-        private static int CountMatchingIngrediences(List<Drink> allCocktails, List<string> ingredients)
-        {
-            int qty = 0;
-            int index = -1;
-
-            for (int i = 0; i < allCocktails.Count; i++)
-            {
-                var SplitItem = allCocktails[i].Name;
-                int currentQty = MatchingIngredients(SplitItem, ingredients);
-
-                if (currentQty > 2)
-                {
-                    qty = currentQty;
-                    index = i;
-                }
-            }
-            return index;
-        }
-
-        //Räknar antalet matchningar
-        private static int MatchingIngredients(List<Drink> allCocktails, List<string> ingredients)
-        {
-            var qtyMatch = allCocktails.Intersect(ingredients);
-            return qtyMatch.Count();
-        }
+       
 
         internal List<Drink> GetAllDrinksWithIngredient(List<int> ingredientId)
         {
