@@ -11,8 +11,8 @@ namespace Drinkar
             Console.WriteLine("Welcome!\nAre you thirsty?    Of course you are!\nLet us recommend you a cocktail depending on what you have!");
             Console.Write("Enter ingredients separated with a comma(,): ");
             string input = Console.ReadLine();
-            
 
+            Console.WriteLine("Hello from Anastasia");
 
         }
     }
