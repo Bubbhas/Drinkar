@@ -12,7 +12,70 @@ namespace Drinkar
     {
         string conString = @"Server=(localdb)\mssqllocaldb;Database=Drinks";
 
-        internal void CreateDrink(string name, string description)
+        private static int CountMatchingIngrediences(List<Cocktails> allCocktails, List<string> ingredients)
+        {
+            int qty = 0;
+            int index = -1;
+
+            for (int i = 0; i < allCocktails.Count; i++)
+            {
+                var SplitItem = allCocktails[i].Name;
+                int currentQty = MatchingIngredients(SplitItem, ingredients);
+
+                if (currentQty > 2)
+                {
+                    qty = currentQty;
+                    index = i;
+                }
+            }
+            return index;
+        }
+
+        //Räknar antalet matchningar
+        private static int MatchingIngredients(List<Cocktails> allCocktails, List<string> ingredients)
+        {
+            var qtyMatch = allCocktails.Intersect(ingredients);
+            return qtyMatch.Count();
+        }
+
+        internal List<Cocktails> GetAllDrinksWithIngredient(List<int> ingredientId)
+        {
+
+            string s = string.Join(",", ingredientId);
+
+            string sql = @"Select Drink.Id, Drink.Name, Drink.Description
+                           From Drink
+                           Left Join IngredientToDrink ON Drink.ID = IngredientToDrink.DrinkId
+                           Left Join Ingredient ON Ingredient.Id = IngredientToDrink.IngredientId
+                           Where ID IN (" + s + ")";
+
+            var result = new List<Cocktails>();
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int id = reader.GetSqlInt32(0).Value;
+                    string name = reader.GetSqlString(1).Value;
+                    string description = reader.GetSqlString(2).Value;
+
+                    var drink = new Cocktails();
+                    drink.Id = id;
+                    drink.Name = name;
+                    drink.Description = description;
+
+                    result.Add(drink);
+                }
+                return result;
+            }
+        }
+
+        public void CreateDrink(string name, string description)
         {
             string sql = @"INSERT INTO Drink(Name, Description)
                             Values(@Name, @Description)";
@@ -25,6 +88,7 @@ namespace Drinkar
                 command.ExecuteNonQuery();
             }
         }
+
         internal void CreateIngredient(string name)
         {
             string sql = @"INSERT INTO Ingredient(Name)
