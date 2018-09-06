@@ -57,7 +57,7 @@ namespace Drinkar
             for (int y = -arr.Length; y < Console.WindowHeight + arr.Length; y++)
             {
                 ConsoleDraw(arr, x, y);
-                Thread.Sleep(50);
+                Thread.Sleep(35);
             }
 
             Console.Clear();

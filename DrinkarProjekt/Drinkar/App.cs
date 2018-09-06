@@ -69,10 +69,11 @@ namespace Drinkar
             List<string> i = line.Split(',').ToList();
 
             List<Drink> allDrink = dataAcccess.GetAllDrinksWithIngredient(i);
+            CenterText("Drinkar som du kan skapa är:");
+            CenterText("ID       Namn");
             foreach (Drink bp in allDrink)
             {
-                Console.WriteLine("Drinkar som du kan skapa är:");
-                Console.WriteLine(string.Join(",", bp.Name));
+                CenterText(string.Join(",", bp.Id.ToString().PadRight(5) ,  bp.Name.PadRight(10)));
             }
         }
 
