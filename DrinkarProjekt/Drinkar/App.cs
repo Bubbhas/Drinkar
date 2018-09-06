@@ -46,6 +46,7 @@ namespace Drinkar
             {
                 Console.WriteLine(x.Id + " " + x.Name);
             }
+            Console.WriteLine("");
             Console.WriteLine("Välj nummer på den drink du vill se receptet på");
             ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
@@ -69,6 +70,7 @@ namespace Drinkar
             {
                 Console.WriteLine(string.Join(",".PadRight(10), bp.Id.ToString().PadLeft(Console.WindowWidth / 2 - 10), bp.Name.PadLeft(10)));
             }
+            Console.WriteLine("");
             Console.WriteLine("Välj den drink du vill se recept på");
             ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
@@ -83,11 +85,10 @@ namespace Drinkar
             {
                 Console.WriteLine($"{drink.Ingredient[i]}  {drink.MeasuresOfIngredients[i].ToString()} cl");
             }
-            //foreach (var item in drink.Ingredient)
-            //{
-            //    Console.WriteLine(item);
-                
-            //}
+            Console.WriteLine("");
+            Console.WriteLine("Välj den drink du vill se recept på");
+            
+            ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
 
         void ShowAllCategories()
