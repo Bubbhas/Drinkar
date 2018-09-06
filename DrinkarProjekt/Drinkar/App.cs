@@ -1,12 +1,14 @@
 ﻿using Drinkar.Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Drinkar
 {
     public class App
     {
+        DataAccess dataAcccess = new DataAccess();
         public void Run()
         {
             WelcomeText();
@@ -27,37 +29,53 @@ namespace Drinkar
             {
                 case ConsoleKey.A: /*ShowAllDrinks()*/; break;
                 case ConsoleKey.B: /*ShowAllCategories()*/; break;
-                case ConsoleKey.C: /*ShowAllMatchedDrinks()*/; break;
+                case ConsoleKey.C: ShowAllDrinksThatMatchesIngredient()/*ShowAllMatchedDrinks()*/; break;
                 default: RedCenterText("Du verkar redan ha druckit en hel del...Tryck valfri knapp för att göra ett nytt försök"); Console.ReadKey(); PageMainMenu(); break;
             }
 
+            
+            //CenterText("Låt oss rekommendera en drink utifrån vad du har hemma!");
+            //CenterTextWithoutNewLine("Skriv in ingredienser separerade med ett kommatecken(,): ");
+            //string line = Console.ReadLine();
 
-            CenterText("Låt oss rekommendera en drink utifrån vad du har hemma!");
-            CenterTextWithoutNewLine("Skriv in ingredienser separerade med ett kommatecken(,): ");
-            string line = Console.ReadLine();
 
-
-            //string line = "Ljus rom, Sockerlag";
-            var input = line.Split(','); //new string[] { "Ljus rom", "Sockerlag", "Kuku" };
-            int ss = input.Length;
+            ////string line = "Ljus rom, Sockerlag";
+            //var input = line.Split(','); //new string[] { "Ljus rom", "Sockerlag", "Kuku" };
+            //int ss = input.Length;
 
 
             ////List<string> usersIngredients = new List<string>();
-            CenterText("Nice! Du kan göra följande drinkar : ");
+            //CenterText("Nice! Du kan göra följande drinkar : ");
 
 
-            List<Drink> matched = ShowAllMatchedDrinks(input);
-            if (matched.Count != 0)
-            {
-                ChooseDrink();
-                Console.ReadKey();
-                PageMainMenu();
-            }
+            //List<Drink> matched = ShowAllMatchedDrinks(;
+            //if (matched.Count != 0)
+            //{
+            //    ChooseDrink();
+            //    Console.ReadKey();
+            //    PageMainMenu();
+            //}
 
-            else
-                Console.WriteLine("Go to SystemBolaget..");
+            //else
+            //    Console.WriteLine("Go to SystemBolaget..");
 
         }
+        private void ShowAllDrinksThatMatchesIngredient()
+        {
+            Console.Clear();
+            CenterText("Låt oss rekommendera en drink utifrån vad du har hemma!");
+            CenterTextWithoutNewLine("Skriv in ingredienser separerade med ett kommatecken(,): ");
+            string line = Console.ReadLine();
+            List<string> i = line.Split(',').ToList();
+
+            List<Drink> allDrink = dataAcccess.GetAllDrinksWithIngredient(i);
+            foreach (Drink bp in allDrink)
+            {
+                Console.WriteLine("Drinkar som du kan skapa är:");
+                Console.WriteLine(string.Join(",", bp.Name));
+            }
+        }
+
 
         private void RedCenterText(string s)
         {
@@ -142,19 +160,19 @@ namespace Drinkar
             PageMainMenu();
         }
 
-        private List<Drink> ShowAllMatchedDrinks(string[] ingrediences)
-        {
-            Console.Clear();
+        //private List<Drink> ShowAllMatchedDrinks(string[] ingrediences)
+        //{
+        //    Console.Clear();
 
-            var dataAccess = new DataAccess();
-            List<Drink> matched = dataAccess.GetAllDrinksWithIngredient(ingrediences, ingrediences.Length);
+        //    var dataAccess = new DataAccess();
+        //    List<Drink> matched = dataAccess.GetAllDrinksWithIngredient(ingrediences, ingrediences.Length);
 
-            foreach (var drink in matched)
-            {
-                Console.WriteLine(drink.Id + " " + drink.Name + " " + drink.Description);
-            }
-            return matched;
-        }
+        //    foreach (var drink in matched)
+        //    {
+        //        Console.WriteLine(drink.Id + " " + drink.Name + " " + drink.Description);
+        //    }
+        //    return matched;
+        //}
 
     }
 }

@@ -13,31 +13,13 @@ namespace Drinkar
         string conString = @"Server=(localdb)\mssqllocaldb;Database=Drinks";
 
 
-        internal List<Drink> GetAllDrinksWithIngredient(string[] x, int ss)
+        internal List<Drink> GetAllDrinksWithIngredient(List<string> i)
         {
-                   
-            string sql = @"select drink.Id, drink.Name, drink.Description
-            from drink
-            join IngredientToDrink on drink.id = IngredientToDrink.DrinkId
-            join Ingredient on IngredientToDrink.IngredientId = Ingredient.Id
-            where Ingredient.Name in ('";
 
-            foreach (string y in x)
-            {
-                sql = sql + y.Trim() + "','";
-            }
-            sql = sql.Remove(sql.Length - 2);
-            sql = sql + @") group by drink.Id, drink.Name, drink.Description
-            having count(drink.Name) = " + ss;
-            //Console.WriteLine(sql);
-
-            //string sql = @"Select Drink.Id, Drink.Name, Drink.Description 
-            //               From Drink
-            //               Left Join IngredientToDrink ON Drink.ID = IngredientToDrink.DrinkId
-            //               Left Join Ingredient ON Ingredient.Id = IngredientToDrink.IngredientId
-            //               Where ID IN (" + s + ")";
-
-            var result = new List<Drink>();
+            string sql = @"SELECT Drink.Id, Drink.Name, Ingredient.Name
+                           from drink
+                            Left join IngredientToDrink on drink.id = IngredientToDrink.DrinkId
+                            Left join Ingredient on IngredientToDrink.IngredientId = Ingredient.Id ";
 
             using (SqlConnection connection = new SqlConnection(conString))
             using (SqlCommand command = new SqlCommand(sql, connection))
@@ -45,22 +27,39 @@ namespace Drinkar
                 connection.Open();
 
                 SqlDataReader reader = command.ExecuteReader();
-                
+
+                var dic = new Dictionary<int, Drink>();
+                List<Drink> matchingDrinks = new List<Drink>();
                 while (reader.Read())
                 {
                     int id = reader.GetSqlInt32(0).Value;
-                    string name = reader.GetSqlString(1).Value;
-                    string description = reader.GetSqlString(2).Value;
-
-                    var drink = new Drink
+                    if (!dic.ContainsKey(id))
                     {
-                        Id = id,
-                        Name = name,
-                        Description = description
-                    };
-                    result.Add(drink);
+                        string name = reader.GetSqlString(1).Value;
+
+                        var drink = new Drink();
+                        drink.Id = id;
+                        drink.Name = name;
+
+                        dic.Add(id, drink);
+                    }
+                    if (!reader.GetSqlString(2).IsNull)
+                    {
+                        dic[id].Ingredient.Add(reader.GetSqlString(2).Value);
+                    }
                 }
-                return result;
+                foreach (Drink drink in dic.Values)
+                {
+                    List<string> ingredients = drink.Ingredient;
+
+                    i.Intersect(ingredients).Count();
+
+                    if (i.Intersect(ingredients).Count() == ingredients.Count())
+                    {
+                        matchingDrinks.Add(drink);
+                    }
+                }
+                return matchingDrinks;
             }
         }
 
