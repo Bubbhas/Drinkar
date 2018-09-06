@@ -28,9 +28,10 @@ namespace Drinkar
             ConsoleKey command = Console.ReadKey().Key;
             switch (command)
             {
-                case ConsoleKey.A: /*ShowAllDrinks()*/; break;
-                case ConsoleKey.B: /*ShowAllCategories()*/; break;
+                case ConsoleKey.A: ShowAllDrinks(); break;
+                case ConsoleKey.B: ShowAllCategories(); break;
                 case ConsoleKey.C: ShowAllDrinksThatMatchesIngredient()/*ShowAllMatchedDrinks()*/; break;
+                case ConsoleKey.D: ShowAllCategories(); break;
                 default: RedCenterText("Du verkar redan ha druckit en hel del...Tryck valfri knapp för att göra ett nytt försök"); Console.ReadKey(); PageMainMenu(); break;
             }
 
@@ -61,6 +62,22 @@ namespace Drinkar
             //    Console.WriteLine("Go to SystemBolaget..");
 
         }
+
+        private void ShowDrinksByCategory()
+        {
+            Console.Clear();
+
+            var dataAccess = new DataAccess();
+            List<Drink> listOfDringOfCategory = dataAccess.ShowAllDrinksByCategory(2);
+
+            Console.WriteLine(); //namn på kategori
+
+            foreach (var x in listOfDringOfCategory)
+            {
+                Console.WriteLine(x.Id + " " + x.Name);
+            }
+        }
+
         private void ShowAllDrinksThatMatchesIngredient()
         {
             Console.Clear();
