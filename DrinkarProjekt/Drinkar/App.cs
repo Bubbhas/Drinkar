@@ -77,6 +77,23 @@ namespace Drinkar
             }
         }
 
+        void ShowAllCategories()
+        {
+            List<Category> listOfCategories = dataAcccess.GetAllCategories();
+            foreach (var item in listOfCategories)
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+        void ShowAllDrinks()
+        {
+            List<Drink> alladrinkar = dataAcccess.GetAllDrinks();
+            foreach (var item in alladrinkar)
+            {
+                Console.WriteLine(item.Name);
+            }
+        }
 
         private void RedCenterText(string s)
         {

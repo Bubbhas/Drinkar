@@ -99,5 +99,59 @@ namespace Drinkar
                 command.ExecuteNonQuery();
             }
         }
+
+        internal List<Category> GetAllCategories()
+        {
+            string sql = @"select distinct Category.Name as Kategori
+                            from DrinkToCategory
+                            join Drink on Drink.Id=DrinkToCategory.DrinkId
+                            join Category on Category.Id=DrinkToCategory.CategoryId";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+                List<Category> listOfCategories = new List<Category>();
+
+                while (reader.Read())
+                {
+                    Category cat = new Category();
+                    cat.Name = reader.GetSqlString(0).Value;
+                    listOfCategories.Add(cat);
+                }
+                return listOfCategories;
+            }
+        }
+
+        public List<Drink> GetAllDrinks()
+        {
+            string sql = @"SELECT Drink.Id, Drink.Name
+                           from drink";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+                List<Drink> listOfDrinks = new List<Drink>();
+
+                while (reader.Read())
+                {
+                    int id = reader.GetSqlInt32(0).Value;
+                    string name = reader.GetSqlString(1).Value;
+
+                    var drink = new Drink();
+                    drink.Id = id;
+                    drink.Name = name;
+
+                    listOfDrinks.Add(drink);
+
+                }
+                return listOfDrinks;
+            }
+        }
     }
 }
