@@ -23,7 +23,6 @@ namespace Drinkar
             CenterText("C) Generera drinkar");
 
             ConsoleKey command = Console.ReadKey().Key;
-
             switch (command)
             {
                 case ConsoleKey.A: /*ShowAllDrinks()*/; break;
