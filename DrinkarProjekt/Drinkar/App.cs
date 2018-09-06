@@ -23,6 +23,7 @@ namespace Drinkar
             CenterText("A) Visa alla drinkar");
             CenterText("B) Visa alla kategorier");
             CenterText("C) Generera drinkar");
+            CenterText("D) Visa alla drink-kategorier");
 
             ConsoleKey command = Console.ReadKey().Key;
             switch (command)
@@ -74,6 +75,17 @@ namespace Drinkar
             foreach (Drink bp in allDrink)
             {
                 CenterText(string.Join(",", bp.Id.ToString().PadRight(5) ,  bp.Name.PadRight(10)));
+            }
+        }
+
+        private void ShowDrinkRecipe()
+        {
+            Console.Clear();
+            Drink drink = dataAcccess.GetDrinkRecipe(1);
+            Console.WriteLine(drink.Name + "  " + drink.Measure);
+            foreach (var item in drink.Ingredient)
+            {
+                Console.WriteLine(item);
             }
         }
 

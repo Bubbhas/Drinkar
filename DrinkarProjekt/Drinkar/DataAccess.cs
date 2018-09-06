@@ -153,5 +153,46 @@ namespace Drinkar
                 return listOfDrinks;
             }
         }
+
+        internal Drink GetDrinkRecipe(int IdOfDrink)
+        {
+            string sql = @"Select Drink.Id, Drink.Name, Drink.Description, Drink.Glass, Ingredient.Name, IngredientToDrink.MeasureOfDrink
+                            From Drink
+                            join IngredientToDrink on drink.id = IngredientToDrink.DrinkId
+                            join Ingredient on IngredientToDrink.IngredientId = Ingredient.Id
+                            Where Drink.Id = @Id
+                            ";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("Id", IdOfDrink));
+                SqlDataReader reader = command.ExecuteReader();
+
+                var drink = new Drink();
+
+                while (reader.Read())
+                {
+                    int id = reader.GetSqlInt32(0).Value;
+
+                    string name = reader.GetSqlString(1).Value;
+                    string description = reader.GetSqlString(2).Value;
+                    decimal measure = reader.GetSqlDecimal(5).Value;
+
+
+                    drink.Id = id;
+                    drink.Name = name;
+                    drink.Description = description;
+                    drink.Measure = measure;
+
+                    if (!reader.GetSqlString(4).IsNull)
+                    {
+                        drink.Ingredient.Add(reader.GetSqlString(4).Value);
+                    }
+                }
+                return drink;
+            }
+        }
     }
 }

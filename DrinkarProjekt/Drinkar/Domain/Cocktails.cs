@@ -12,5 +12,6 @@ namespace Drinkar.Domain
         public string Name { get; set; }
         public string Description { get; set; }
         public List<string> Ingredient { get; set; } = new List<string>();
+        public decimal Measure { get; set; }
     }
 }
