@@ -102,10 +102,8 @@ namespace Drinkar
 
         internal List<Category> GetAllCategories()
         {
-            string sql = @"select distinct Category.Name as Kategori
-                            from DrinkToCategory
-                            join Drink on Drink.Id=DrinkToCategory.DrinkId
-                            join Category on Category.Id=DrinkToCategory.CategoryId";
+            string sql = @"select distinct Id, Name as Kategori
+                            from Category";
 
             using (SqlConnection connection = new SqlConnection(conString))
             using (SqlCommand command = new SqlCommand(sql, connection))
@@ -117,9 +115,10 @@ namespace Drinkar
 
                 while (reader.Read())
                 {
-                    Category cat = new Category();
-                    cat.Name = reader.GetSqlString(0).Value;
-                    listOfCategories.Add(cat);
+                    Category category = new Category();
+                    category.Id = reader.GetSqlInt32(0).Value;
+                    category.Name = reader.GetSqlString(1).Value;
+                    listOfCategories.Add(category);
                 }
                 return listOfCategories;
             }
@@ -154,7 +153,7 @@ namespace Drinkar
             }
         }
 
-        public List<Drink> ShowAllDrinksByCategory(int categoryId)
+        public List<Drink> GetAllDrinksByCategoryId(int categoryId)
         {
             string sql = @"select Drink.Id, Drink.Name
             from DrinkToCategory

@@ -8,7 +8,7 @@ namespace Drinkar
 {
     public class App
     {
-        DataAccess dataAcccess = new DataAccess();
+        DataAccess dataAccess = new DataAccess();
         public void Run()
         {
             WelcomeText();
@@ -23,7 +23,6 @@ namespace Drinkar
             CenterText("A) Visa alla drinkar");
             CenterText("B) Visa alla kategorier");
             CenterText("C) Generera drinkar");
-            CenterText("D) Visa alla drink-kategorier");
 
             ConsoleKey command = Console.ReadKey().Key;
             switch (command)
@@ -31,48 +30,19 @@ namespace Drinkar
                 case ConsoleKey.A: ShowAllDrinks(); break;
                 case ConsoleKey.B: ShowAllCategories(); break;
                 case ConsoleKey.C: ShowAllDrinksThatMatchesIngredient()/*ShowAllMatchedDrinks()*/; break;
-                case ConsoleKey.D: ShowAllCategories(); break;
                 default: RedCenterText("Du verkar redan ha druckit en hel del...Tryck valfri knapp för att göra ett nytt försök"); Console.ReadKey(); PageMainMenu(); break;
             }
-
-            
-            //CenterText("Låt oss rekommendera en drink utifrån vad du har hemma!");
-            //CenterTextWithoutNewLine("Skriv in ingredienser separerade med ett kommatecken(,): ");
-            //string line = Console.ReadLine();
-
-
-            ////string line = "Ljus rom, Sockerlag";
-            //var input = line.Split(','); //new string[] { "Ljus rom", "Sockerlag", "Kuku" };
-            //int ss = input.Length;
-
-
-            ////List<string> usersIngredients = new List<string>();
-            //CenterText("Nice! Du kan göra följande drinkar : ");
-
-
-            //List<Drink> matched = ShowAllMatchedDrinks(;
-            //if (matched.Count != 0)
-            //{
-            //    ChooseDrink();
-            //    Console.ReadKey();
-            //    PageMainMenu();
-            //}
-
-            //else
-            //    Console.WriteLine("Go to SystemBolaget..");
-
         }
 
-        private void ShowDrinksByCategory()
+        private void ShowDrinksByCategory(int input)
         {
             Console.Clear();
 
-            var dataAccess = new DataAccess();
-            List<Drink> listOfDringOfCategory = dataAccess.ShowAllDrinksByCategory(2);
+            List<Drink> listOfDrinksCategory = dataAccess.GetAllDrinksByCategoryId(input);
 
             Console.WriteLine(); //namn på kategori
 
-            foreach (var x in listOfDringOfCategory)
+            foreach (var x in listOfDrinksCategory)
             {
                 Console.WriteLine(x.Id + " " + x.Name);
             }
@@ -87,7 +57,7 @@ namespace Drinkar
             string line = Console.ReadLine();
             List<string> i = line.Split(',').ToList();
 
-            List<Drink> allDrink = dataAcccess.GetAllDrinksWithIngredient(i);
+            List<Drink> allDrink = dataAccess.GetAllDrinksWithIngredient(i);
             Console.WriteLine();
             CenterText("Drinkar som du kan skapa är:");
             Console.WriteLine();
@@ -102,7 +72,7 @@ namespace Drinkar
         private void ShowDrinkRecipe()
         {
             Console.Clear();
-            Drink drink = dataAcccess.GetDrinkRecipe(1);
+            Drink drink = dataAccess.GetDrinkRecipe(1);
             Console.WriteLine(drink.Name + "  " + drink.Measure);
             foreach (var item in drink.Ingredient)
             {
@@ -112,19 +82,23 @@ namespace Drinkar
 
         void ShowAllCategories()
         {
-            List<Category> listOfCategories = dataAcccess.GetAllCategories();
+            Console.Clear();
+            List<Category> listOfCategories = dataAccess.GetAllCategories();
             foreach (var item in listOfCategories)
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"{item.Id.ToString()} {item.Name}");
             }
+            Console.WriteLine("Skriv in siffran på den kategori där du vill se drinkarna");
+            ShowDrinksByCategory(int.Parse(Console.ReadLine()));
         }
 
         void ShowAllDrinks()
         {
-            List<Drink> alladrinkar = dataAcccess.GetAllDrinks();
+            Console.Clear();
+            List<Drink> alladrinkar = dataAccess.GetAllDrinks();
             foreach (var item in alladrinkar)
             {
-                Console.WriteLine(item.Name);
+                Console.WriteLine($"{item.Id.ToString()} {item.Name}");
             }
         }
 
