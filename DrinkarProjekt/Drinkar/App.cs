@@ -64,17 +64,21 @@ namespace Drinkar
         private void ShowAllDrinksThatMatchesIngredient()
         {
             Console.Clear();
+            ShowAppLogo();
             CenterText("Låt oss rekommendera en drink utifrån vad du har hemma!");
             CenterTextWithoutNewLine("Skriv in ingredienser separerade med ett kommatecken(,): ");
             string line = Console.ReadLine();
             List<string> i = line.Split(',').ToList();
 
             List<Drink> allDrink = dataAcccess.GetAllDrinksWithIngredient(i);
+            Console.WriteLine();
             CenterText("Drinkar som du kan skapa är:");
-            CenterText("ID       Namn");
+            Console.WriteLine();
+            Console.WriteLine(" ID".PadLeft(Console.WindowWidth / 2 - 10) + "".PadRight(10) + "Namn");
+            Console.WriteLine();
             foreach (Drink bp in allDrink)
             {
-                CenterText(string.Join(",", bp.Id.ToString().PadRight(5) ,  bp.Name.PadRight(10)));
+                Console.WriteLine(string.Join(",".PadRight(10), bp.Id.ToString().PadLeft(Console.WindowWidth / 2 - 10), bp.Name.PadLeft(10)));
             }
         }
 
