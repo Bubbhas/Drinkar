@@ -9,13 +9,36 @@ namespace Drinkar
     {
         public void Run()
         {
+            WelcomeText();
             PageMainMenu();
         }
-
         private void PageMainMenu()
         {
             Console.Clear();
+            ShowAppLogo();
+            WhiteCenterText("Vad kan vi göra för dig?\n");
 
+            CenterText("A) Visa alla drinkar");
+            CenterText("B) Visa alla kategorier");
+            CenterText("C) Generera drinkar");
+
+            ConsoleKey command = Console.ReadKey().Key;
+
+            switch (command)
+            {
+                case ConsoleKey.A: /*ShowAllDrinks()*/; break;
+                case ConsoleKey.B: /*ShowAllCategories()*/; break;
+                case ConsoleKey.C: /*ShowAllMatchedDrinks()*/; break;
+                default: RedCenterText("Du verkar redan ha druckit en hel del...Tryck valfri knapp för att göra ett nytt försök"); Console.ReadKey(); PageMainMenu(); break;
+            }
+
+
+            CenterText("Låt oss rekommendera en drink utifrån vad du har hemma!");
+            CenterTextWithoutNewLine("Skriv in ingredienser separerade med ett kommatecken(,): ");
+            //string line = Console.ReadLine();
+
+
+<<<<<<< HEAD
             Console.WriteLine("Welcome!\nAre you thirsty?    Of course you are!\n");
             Console.WriteLine("Let us recommend you a cocktail depending on what you have!");
             Console.Write("Enter ingredients separated with a comma(,): ");
@@ -25,8 +48,15 @@ namespace Drinkar
             var input = line.Split(','); //new string[] { "Ljus rom", "Sockerlag", "Kuku" };
             int ss = input.Length;
             Console.WriteLine("Nice! You can make following drinks : ");
+=======
+            string line = "Ljus rom, Sockerlag, Kuku";
+            var input = line.Split(','); //new string[] { "Ljus rom", "Sockerlag", "Kuku" };
 
-            List<Drink> matched = ShowAllMatchedDrinks (input);
+            ////List<string> usersIngredients = new List<string>();
+            CenterText("Nice! Du kan göra följande drinkar : ");
+>>>>>>> c76d60f2cff924bbe5f85bc73607f78813bb9dfe
+
+            List<Drink> matched = ShowAllMatchedDrinks(input);
             if (matched.Count != 0)
             {
                 ChooseDrink();
@@ -37,6 +67,53 @@ namespace Drinkar
             else
                 Console.WriteLine("Go to SystemBolaget..");
 
+        }
+
+        private void RedCenterText(string s)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("{0," + ((Console.WindowWidth / 2) + s.Length / 2) + "}", s);
+            Console.ResetColor();
+        }
+
+        private void WelcomeText()
+        {
+            ShowAppLogo();
+
+            WhiteCenterText("Välkommen!\n\n");
+            CenterText("Är du törstig?\n");
+            CenterText("Klart du är!\n");
+            Console.ReadKey();
+        }
+
+        private static void ShowAppLogo()
+        {
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            CenterText("*********************************");
+            Console.WriteLine();
+            CenterText("DrinkMaker");
+            Console.WriteLine();
+            CenterText("*********************************");
+            Console.ResetColor();
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+
+        private void WhiteCenterText(string s)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("{0," + ((Console.WindowWidth / 2) + s.Length / 2) + "}", s);
+            Console.ResetColor();
+        }
+
+        private static void CenterText(string s)
+        {
+            Console.WriteLine("{0," + ((Console.WindowWidth / 2) + s.Length / 2) + "}", s);
+        }
+        private static void CenterTextWithoutNewLine(string s)
+        {
+            Console.Write("{0," + ((Console.WindowWidth / 2) + s.Length / 2) + "}", s);
         }
 
         private void ChooseDrink()

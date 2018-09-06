@@ -7,6 +7,7 @@ namespace Drinkar
     {
         static void Main(string[] args)
         {
+            new Animation().Run();
             new App().Run();
             
 
