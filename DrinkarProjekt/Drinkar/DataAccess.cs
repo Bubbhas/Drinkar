@@ -28,6 +28,16 @@ namespace Drinkar
 
                 SqlDataReader reader = command.ExecuteReader();
 
+                List<string> fixedList = new List<string>();
+
+                foreach (var item in i)
+                {
+                    var trimmed = item.Trim();
+                    var newString = trimmed.First().ToString().ToUpper() + String.Join("", trimmed.Skip(1)).ToLower();
+
+                    fixedList.Add(newString);
+                }
+
                 var dic = new Dictionary<int, Drink>();
                 List<Drink> matchingDrinks = new List<Drink>();
                 while (reader.Read())
@@ -52,9 +62,9 @@ namespace Drinkar
                 {
                     List<string> ingredients = drink.Ingredient;
 
-                    i.Intersect(ingredients).Count();
+                    fixedList.Intersect(ingredients).Count();
 
-                    if (i.Intersect(ingredients).Count() == ingredients.Count())
+                    if (fixedList.Intersect(ingredients).Count() == ingredients.Count())
                     {
                         matchingDrinks.Add(drink);
                     }
