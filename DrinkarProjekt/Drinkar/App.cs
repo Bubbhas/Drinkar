@@ -19,11 +19,11 @@ namespace Drinkar
             Console.WriteLine("Welcome!\nAre you thirsty?    Of course you are!\n");
             Console.WriteLine("Let us recommend you a cocktail depending on what you have!");
             Console.Write("Enter ingredients separated with a comma(,): ");
-     //       string line = Console.ReadLine();
-            string line = "Ljus rom, Sockerlag, Kuku";
+            
+            //  string line = Console.ReadLine();
+            string line = "Ljus rom, Sockerlag";
             var input = line.Split(','); //new string[] { "Ljus rom", "Sockerlag", "Kuku" };
-
-            ////List<string> usersIngredients = new List<string>();
+            int ss = input.Length;
             Console.WriteLine("Nice! You can make following drinks : ");
 
             List<Drink> matched = ShowAllMatchedDrinks (input);
@@ -75,12 +75,12 @@ namespace Drinkar
             PageMainMenu();
         }
 
-        private List<Drink> ShowAllMatchedDrinks(string[] input)
+        private List<Drink> ShowAllMatchedDrinks(string[] ingrediences)
         {
             Console.Clear();
 
             var dataAccess = new DataAccess();
-            List<Drink> matched = dataAccess.GetAllDrinksWithIngredient(input);
+            List<Drink> matched = dataAccess.GetAllDrinksWithIngredient(ingrediences, ingrediences.Length);
 
             foreach (var drink in matched)
             {

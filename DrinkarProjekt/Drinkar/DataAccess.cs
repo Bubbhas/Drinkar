@@ -13,17 +13,9 @@ namespace Drinkar
         string conString = @"Server=(localdb)\mssqllocaldb;Database=Drinks";
 
 
-        internal List<Drink> GetAllDrinksWithIngredient(string[] x)
+        internal List<Drink> GetAllDrinksWithIngredient(string[] x, int ss)
         {
-
-            //string sql = @"select distinct drink.Name
-            //from drink
-            //join IngredientToDrink on drink.id = IngredientToDrink.DrinkId
-            //join Ingredient on IngredientToDrink.IngredientId = Ingredient.Id
-            //where Ingredient.Name in ('" + x + @"') 
-            //group by drink.Name
-            //having count(drink.Name) = 2;";
-
+                   
             string sql = @"select drink.Id, drink.Name, drink.Description
             from drink
             join IngredientToDrink on drink.id = IngredientToDrink.DrinkId
@@ -36,7 +28,7 @@ namespace Drinkar
             }
             sql = sql.Remove(sql.Length - 2);
             sql = sql + @") group by drink.Id, drink.Name, drink.Description
-            having count(drink.Name) = 2;";
+            having count(drink.Name) = " + ss;
             //Console.WriteLine(sql);
 
             //string sql = @"Select Drink.Id, Drink.Name, Drink.Description 
