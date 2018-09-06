@@ -211,17 +211,16 @@ namespace Drinkar
 
                     string name = reader.GetSqlString(1).Value;
                     string description = reader.GetSqlString(2).Value;
-                    decimal measure = reader.GetSqlDecimal(5).Value;
 
 
                     drink.Id = id;
                     drink.Name = name;
                     drink.Description = description;
-                    drink.Measure = measure;
 
                     if (!reader.GetSqlString(4).IsNull)
                     {
                         drink.Ingredient.Add(reader.GetSqlString(4).Value);
+                        drink.MeasuresOfIngredients.Add(reader.GetSqlDecimal(5).Value);
                     }
                 }
                 return drink;

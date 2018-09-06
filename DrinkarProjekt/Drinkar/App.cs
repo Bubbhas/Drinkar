@@ -46,6 +46,8 @@ namespace Drinkar
             {
                 Console.WriteLine(x.Id + " " + x.Name);
             }
+            Console.WriteLine("Välj nummer på den drink du vill se receptet på");
+            ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
 
         private void ShowAllDrinksThatMatchesIngredient()
@@ -67,17 +69,25 @@ namespace Drinkar
             {
                 Console.WriteLine(string.Join(",".PadRight(10), bp.Id.ToString().PadLeft(Console.WindowWidth / 2 - 10), bp.Name.PadLeft(10)));
             }
+            Console.WriteLine("Välj den drink du vill se recept på");
+            ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
 
-        private void ShowDrinkRecipe()
+        private void ShowDrinkRecipe(int input)
         {
             Console.Clear();
-            Drink drink = dataAccess.GetDrinkRecipe(1);
-            Console.WriteLine(drink.Name + "  " + drink.Measure);
-            foreach (var item in drink.Ingredient)
+            Drink drink = dataAccess.GetDrinkRecipe(input);
+            Console.WriteLine(drink.Name);
+
+            for (int i = 0; i < drink.Ingredient.Count; i++)
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"{drink.Ingredient[i]}  {drink.MeasuresOfIngredients[i].ToString()} cl");
             }
+            //foreach (var item in drink.Ingredient)
+            //{
+            //    Console.WriteLine(item);
+                
+            //}
         }
 
         void ShowAllCategories()
@@ -101,7 +111,6 @@ namespace Drinkar
             List<Drink> alladrinkar = dataAccess.GetAllDrinks();
             foreach (var item in alladrinkar)
             {
-
                 CenterText(item.Name);
             }
         }
