@@ -37,7 +37,7 @@ namespace Drinkar
         private void ShowDrinksByCategory(int input)
         {
             Console.Clear();
-
+            ShowAppLogo();
             List<Drink> listOfDrinksCategory = dataAccess.GetAllDrinksByCategoryId(input);
 
             Console.WriteLine(); //namn på kategori
@@ -93,6 +93,7 @@ namespace Drinkar
         void ShowAllCategories()
         {
             Console.Clear();
+            ShowAppLogo();
             List<Category> listOfCategories = dataAccess.GetAllCategories();
             foreach (var item in listOfCategories)
             {
@@ -111,8 +112,10 @@ namespace Drinkar
             List<Drink> alladrinkar = dataAccess.GetAllDrinks();
             foreach (var item in alladrinkar)
             {
-                CenterText(item.Name);
+                CenterText($"{item.Id} {item.Name}");
             }
+            Console.WriteLine("Välj den drink du vill se recept på");
+            ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
 
         private void RedCenterText(string s)
