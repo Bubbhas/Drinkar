@@ -36,18 +36,12 @@ namespace Drinkar
             CenterTextWithoutNewLine("Skriv in ingredienser separerade med ett kommatecken(,): ");
             //string line = Console.ReadLine();
 
-
-            Console.WriteLine("Welcome!\nAre you thirsty?    Of course you are!\n");
-            Console.WriteLine("Let us recommend you a cocktail depending on what you have!");
-            Console.Write("Enter ingredients separated with a comma(,): ");
             
             //  string line = Console.ReadLine();
             string line = "Ljus rom, Sockerlag";
             var input = line.Split(','); //new string[] { "Ljus rom", "Sockerlag", "Kuku" };
             int ss = input.Length;
-            Console.WriteLine("Nice! You can make following drinks : ");
-            string line = "Ljus rom, Sockerlag, Kuku";
-            var input = line.Split(','); //new string[] { "Ljus rom", "Sockerlag", "Kuku" };
+
 
             ////List<string> usersIngredients = new List<string>();
             CenterText("Nice! Du kan göra följande drinkar : ");
