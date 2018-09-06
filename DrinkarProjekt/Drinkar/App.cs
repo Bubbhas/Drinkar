@@ -95,10 +95,14 @@ namespace Drinkar
         void ShowAllDrinks()
         {
             Console.Clear();
+            ShowAppLogo();
+            WhiteCenterText("Alla drinkar\n");
+
             List<Drink> alladrinkar = dataAccess.GetAllDrinks();
             foreach (var item in alladrinkar)
             {
-                Console.WriteLine($"{item.Id.ToString()} {item.Name}");
+
+                CenterText(item.Name);
             }
         }
 
@@ -181,7 +185,7 @@ namespace Drinkar
                 //}
             }
             else
-            Console.Clear();
+                Console.Clear();
             PageMainMenu();
         }
 
