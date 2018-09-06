@@ -73,6 +73,39 @@ namespace Drinkar
             }
         }
 
+        internal Drink GetRandomDrink(int drinkId)
+        {
+            string sql = @"Select Drink.Id, Drink.Name, Drink.Description, Drink.Glass, Ingredient.Name, IngredientToDrink.MeasureOfDrink
+                            From Drink
+                            join IngredientToDrink on drink.id = IngredientToDrink.DrinkId
+                            join Ingredient on IngredientToDrink.IngredientId = Ingredient.Id
+                            Where Drink.Id = @Id
+                            ";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("Id", drinkId));
+                SqlDataReader reader = command.ExecuteReader();
+
+                var drink = new Drink();
+
+                reader.Read();
+                int id = reader.GetSqlInt32(0).Value;
+
+                string name = reader.GetSqlString(1).Value;
+                string description = reader.GetSqlString(2).Value;
+
+
+                drink.Id = id;
+                drink.Name = name;
+                drink.Description = description;
+
+
+                return drink;
+            }
+        }
         public void CreateDrink(string name, string description)
         {
             string sql = @"INSERT INTO Drink(Name, Description)

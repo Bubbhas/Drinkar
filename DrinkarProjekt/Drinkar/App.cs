@@ -23,6 +23,7 @@ namespace Drinkar
             CenterText("A) Visa alla drinkar");
             CenterText("B) Visa alla kategorier");
             CenterText("C) Generera drinkar");
+            CenterText("D) Slumpa fram en drink");
 
             ConsoleKey command = Console.ReadKey().Key;
             switch (command)
@@ -30,8 +31,25 @@ namespace Drinkar
                 case ConsoleKey.A: ShowAllDrinks(); break;
                 case ConsoleKey.B: ShowAllCategories(); break;
                 case ConsoleKey.C: ShowAllDrinksThatMatchesIngredient()/*ShowAllMatchedDrinks()*/; break;
+                case ConsoleKey.D: DrinkRandomizer(); break;
                 default: RedCenterText("Du verkar redan ha druckit en hel del...Tryck valfri knapp för att göra ett nytt försök"); Console.ReadKey(); PageMainMenu(); break;
             }
+        }
+
+        private void DrinkRandomizer()
+        {
+            Console.Clear();
+            ShowAppLogo();
+
+            Random rnd = new Random();
+
+            int drinkId = rnd.Next(1, 15);
+
+            Drink drink = dataAccess.GetRandomDrink(drinkId);
+
+            CenterText("Din drink blir.....\n");
+            WhiteCenterText($"{drink.Name}\n");
+            CenterText(drink.Description);
         }
 
         private void ShowDrinksByCategory(int input)
