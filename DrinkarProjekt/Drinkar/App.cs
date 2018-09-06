@@ -38,7 +38,6 @@ namespace Drinkar
             //string line = Console.ReadLine();
 
 
-<<<<<<< HEAD
             Console.WriteLine("Welcome!\nAre you thirsty?    Of course you are!\n");
             Console.WriteLine("Let us recommend you a cocktail depending on what you have!");
             Console.Write("Enter ingredients separated with a comma(,): ");
@@ -48,13 +47,12 @@ namespace Drinkar
             var input = line.Split(','); //new string[] { "Ljus rom", "Sockerlag", "Kuku" };
             int ss = input.Length;
             Console.WriteLine("Nice! You can make following drinks : ");
-=======
             string line = "Ljus rom, Sockerlag, Kuku";
             var input = line.Split(','); //new string[] { "Ljus rom", "Sockerlag", "Kuku" };
 
             ////List<string> usersIngredients = new List<string>();
             CenterText("Nice! Du kan göra följande drinkar : ");
->>>>>>> c76d60f2cff924bbe5f85bc73607f78813bb9dfe
+
 
             List<Drink> matched = ShowAllMatchedDrinks(input);
             if (matched.Count != 0)
