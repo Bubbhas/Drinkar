@@ -34,11 +34,10 @@ namespace Drinkar
 
             CenterText("Låt oss rekommendera en drink utifrån vad du har hemma!");
             CenterTextWithoutNewLine("Skriv in ingredienser separerade med ett kommatecken(,): ");
-            //string line = Console.ReadLine();
+            string line = Console.ReadLine();
 
-            
-            //  string line = Console.ReadLine();
-            string line = "Ljus rom, Sockerlag";
+
+            //string line = "Ljus rom, Sockerlag";
             var input = line.Split(','); //new string[] { "Ljus rom", "Sockerlag", "Kuku" };
             int ss = input.Length;
 
