@@ -13,9 +13,7 @@ namespace Drinkar
         public void Run()
         {
             //SetConsoleWindowToFullSize();
-            WelcomeText();
-           // ShowLogIn();
-            //ShowCreateProfile();
+            //WelcomeText();
             PageMainMenu();
         }
 
@@ -154,14 +152,14 @@ namespace Drinkar
             Console.WriteLine();
             CenterText("Drinkar som du kan skapa är:");
             Console.WriteLine();
-            Console.WriteLine(" ID".PadLeft(Console.WindowWidth / 2 - 10) + "".PadRight(10) + "Namn");
+            CenterText(" ID".PadLeft(Console.WindowWidth / 2 - 10) + "".PadRight(10) + "Namn");
             Console.WriteLine();
             foreach (Drink bp in allDrink)
             {
                 Console.WriteLine(string.Join(",".PadRight(10), bp.Id.ToString().PadLeft(Console.WindowWidth / 2 - 10), bp.Name.PadLeft(10)));
             }
             Console.WriteLine("");
-            Console.WriteLine("Välj den drink du vill se recept på");
+            WhiteCenterTextWithoutNewLine("Välj den drink du vill se recept på");
             Console.Clear();
             ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
@@ -247,6 +245,20 @@ namespace Drinkar
             CenterText("Klart du är!\n");
             Console.CursorVisible = false;
             Console.ReadKey();
+            Console.Clear();
+            ShowAppLogo();
+            WhiteCenterTextWithoutNewLine("(L)ogga in eller (S)kapa konto? ");
+            string str = Console.ReadLine().ToLower();
+
+            if (str == "l")
+            {
+                ShowLogIn();
+            }
+            else if (str == "s")
+            {
+                ShowCreateProfile();
+            }
+
         }
 
         private static void ShowAppLogo()
@@ -282,18 +294,17 @@ namespace Drinkar
         
         private void ShowDrinkInstructions(int input)
         {
-            Console.WriteLine("Vill du sätta igång med drinkgörandet? (J)a eller (N)ej?");
+            WhiteCenterTextWithoutNewLine("Vill du sätta igång med drinkgörandet? (J)a eller (N)ej? ");
             string aswer = Console.ReadLine().ToLower();
-
+            Console.WriteLine();
             if (aswer == "j")
             {
                 Console.ReadLine();
                 Drink drink = dataAccess.GetDrinkInstructions(input);
-                Console.WriteLine(drink.Instructions);
+                CenterText(drink.Instructions);
 
                 Console.WriteLine("");
-                Console.WriteLine("");
-                Console.WriteLine("Nu är du en guru på att göra drinkar!");
+                WhiteCenterText("Nu du är guru på att göra drinkar!");
                 Console.ReadLine();
                 PageMainMenu();
             }
