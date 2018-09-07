@@ -307,6 +307,7 @@ namespace Drinkar
 
                 Console.WriteLine("");
                 Console.WriteLine("Nu du är guru på att göra drinkar!");
+                Console.ReadLine();
                 PageMainMenu();
             }
             else
