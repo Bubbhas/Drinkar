@@ -11,12 +11,19 @@ namespace Drinkar
         DataAccess dataAccess = new DataAccess();
         public void Run()
         {
-            //int largestWidth = Console.LargestWindowWidth;
-            //int largestHeight = Console.LargestWindowHeight;
-            //Console.SetWindowSize(largestWidth, largestHeight);
+            //SetConsoleWindowToFullSize();
             WelcomeText();
+            //ShowLogIn();
             PageMainMenu();
         }
+
+        private static void SetConsoleWindowToFullSize()
+        {
+            int largestWidth = Console.LargestWindowWidth;
+            int largestHeight = Console.LargestWindowHeight;
+            Console.SetWindowSize(largestWidth, largestHeight);
+        }
+
         private void PageMainMenu()
         {
             Console.Clear();
@@ -49,17 +56,13 @@ namespace Drinkar
             int drinkId = rnd.Next(1, 15);
 
             Drink drink = dataAccess.GetRandomDrink(drinkId);
-            Drink drinkRecipe = dataAccess.GetDrinkRecipe(drinkId);
+
 
             CenterText("Din drink blir.....\n");
-            WhiteCenterText($"{drink.Name}\n");
-            CenterText($"{drink.Description}\n");
 
-            for (int i = 0; i < drinkRecipe.Ingredient.Count; i++)
-            {
-                CenterText($"{drinkRecipe.Ingredient[i]}  {drinkRecipe.MeasuresOfIngredients[i].ToString()} cl");
-            }
-            Console.WriteLine();
+            ShowDrinkRecipe(drink.Id);
+
+
             Console.ReadKey();
             PageMainMenu();
         }
@@ -70,14 +73,16 @@ namespace Drinkar
             ShowAppLogo();
             List<Drink> listOfDrinksCategory = dataAccess.GetAllDrinksByCategoryId(input);
 
+
+
             Console.WriteLine(); //namn på kategori
 
             foreach (var x in listOfDrinksCategory)
             {
-                Console.WriteLine(x.Id + " " + x.Name);
+                CenterText(x.Id + " " + x.Name);
             }
             Console.WriteLine("");
-            Console.WriteLine("Välj nummer på den drink du vill se receptet på");
+            WhiteCenterText("Välj nummer på den drink du vill se receptet på");
             ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
 
@@ -102,23 +107,23 @@ namespace Drinkar
             }
             Console.WriteLine("");
             Console.WriteLine("Välj den drink du vill se recept på");
+            Console.Clear();
             ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
 
         private void ShowDrinkRecipe(int input)
         {
-            Console.Clear();
             Drink drink = dataAccess.GetDrinkRecipe(input);
-            Console.WriteLine(drink.Name);
+            WhiteCenterText($"{drink.Name}\n");
+            CenterText($"{drink.Description}\n");
 
             for (int i = 0; i < drink.Ingredient.Count; i++)
             {
-                Console.WriteLine($"{drink.Ingredient[i]}  {drink.MeasuresOfIngredients[i].ToString()} cl");
+                CenterText($"{drink.Ingredient[i]}  {drink.MeasuresOfIngredients[i].ToString()} cl");
             }
-            Console.WriteLine("");
-            Console.WriteLine("Välj den drink du vill se recept på");
-            
-            ShowDrinkRecipe(int.Parse(Console.ReadLine()));
+            Console.WriteLine();
+            Console.ReadKey();
+            PageMainMenu();
         }
 
         void ShowAllCategories()
@@ -126,12 +131,18 @@ namespace Drinkar
             Console.Clear();
             ShowAppLogo();
             List<Category> listOfCategories = dataAccess.GetAllCategories();
+
+            WhiteCenterText("Kategorier:\n");
+
             foreach (var item in listOfCategories)
             {
-                Console.WriteLine($"{item.Id.ToString()} {item.Name}");
+                CenterText($"{item.Id.ToString()} {item.Name}");
             }
-            Console.WriteLine("Skriv in siffran på den kategori där du vill se drinkarna");
+            Console.WriteLine();
+            WhiteCenterTextWithoutNewLine("Skriv in siffran på den kategori där du vill se drinkarna: ");
             ShowDrinksByCategory(int.Parse(Console.ReadLine()));
+
+
         }
 
         void ShowAllDrinks()
@@ -145,8 +156,19 @@ namespace Drinkar
             {
                 CenterText($"{item.Id} {item.Name}");
             }
-            Console.WriteLine("Välj den drink du vill se recept på");
-            ShowDrinkRecipe(int.Parse(Console.ReadLine()));
+            Console.WriteLine();
+            WhiteCenterTextWithoutNewLine("Välj den drink du vill se recept på: ");
+            int drinkId = int.Parse(Console.ReadLine());
+            Console.Clear();
+            ShowAppLogo();
+            ShowDrinkRecipe(drinkId);
+        }
+
+        private void WhiteCenterTextWithoutNewLine(string s)
+        {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("{0," + ((Console.WindowWidth / 2) + s.Length / 2) + "}", s);
+            Console.ResetColor();
         }
 
         private void RedCenterText(string s)
@@ -231,6 +253,68 @@ namespace Drinkar
             else
                 Console.Clear();
             PageMainMenu();
+        }
+        private void ShowDrinkInstructions(int sameInput)
+        {
+            Console.WriteLine("Vill du sätta igång med drinkgörandet? (J)a eller (N)ej?");
+            string aswer = Console.ReadLine().ToLower();
+
+            if (aswer == "j")
+            {
+                Drink drink = dataAccess.GetDrinkInstructions(sameInput);
+                Console.WriteLine(drink.Instructions);
+
+                Console.WriteLine("");
+                Console.WriteLine("Nu du är guru på att göra drinkar!");
+                PageMainMenu();
+            }
+            else
+
+                PageMainMenu();
+        }
+        private void ShowLogIn()
+        {
+            Console.Clear();
+            ShowAppLogo();
+            WhiteCenterTextWithoutNewLine("Ange ditt användarnamn (email): ");
+            string email = Console.ReadLine();
+            string password = "";
+            WhiteCenterTextWithoutNewLine("Ange ditt lösenord: ");
+            ConsoleKeyInfo key;
+
+            do
+            {
+                key = Console.ReadKey(true);
+
+                // Backspace Should Not Work
+                if (key.Key != ConsoleKey.Backspace)
+                {
+                    password += key.KeyChar;
+                    Console.Write("*");
+                }
+                else
+                {
+                    password = password.Remove(password.Length - 1);
+                    Console.Write("\b \b");
+                }
+            }
+            while (key.Key != ConsoleKey.Enter);
+
+
+
+            bool access = dataAccess.TestUnderNameAndPassWord(email, password);
+            if (access)
+            {
+                WhiteCenterText("Du är nu inloggad!");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.Clear();
+                RedCenterText("Felaktigt användarnamn eller lösenord");
+                ShowLogIn();
+
+            }
         }
 
         //private List<Drink> ShowAllMatchedDrinks(string[] ingrediences)

@@ -71,8 +71,60 @@ namespace Drinkar
                 }
                 return matchingDrinks;
             }
-        }
 
+        }
+        internal bool TestUnderNameAndPassWord(string email, string password)
+        {
+            bool existOrNot = false;
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand cmd = new SqlCommand(@"select count(*) 
+                        From User1 
+                        Where Email=@email AND Password=@password", connection))
+            {
+                connection.Open();
+
+                cmd.Parameters.Add(new SqlParameter("@email", email));
+                cmd.Parameters.Add(new SqlParameter("@password", password));
+                int result = (int)cmd.ExecuteScalar();
+                if (result > 0)
+                {
+                    existOrNot = true;
+                }
+
+            }
+            return existOrNot;
+        }
+        internal Drink GetDrinkInstructions(int sameInput)
+        {
+            string sql = @"Select Drink.Id, Drink.Name, Drink.Instructions
+                            From Drink                            
+                            Where Drink.Id = @Id
+                            ";
+
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                command.Parameters.Add(new SqlParameter("Id", sameInput));
+                SqlDataReader reader = command.ExecuteReader();
+
+                var drink = new Drink();
+
+                reader.Read();
+
+                int id = reader.GetSqlInt32(0).Value;
+
+                string name = reader.GetSqlString(1).Value;
+                string instructions = reader.GetSqlString(2).Value;
+
+
+                //drink.Id = id;
+                //drink.Name = name;
+                drink.Instructions = instructions;
+
+                return drink;
+            }
+        }
         internal Drink GetRandomDrink(int drinkId)
         {
             string sql = @"Select Drink.Id, Drink.Name, Drink.Description, Drink.Glass, Ingredient.Name, IngredientToDrink.MeasureOfDrink

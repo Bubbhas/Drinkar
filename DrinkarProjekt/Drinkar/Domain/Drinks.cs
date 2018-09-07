@@ -13,5 +13,6 @@ namespace Drinkar.Domain
         public string Description { get; set; }
         public List<string> Ingredient { get; set; } = new List<string>();
         public List<decimal> MeasuresOfIngredients { get; set; } = new List<decimal>();
+        public string Instructions { get; set; }
     }
 }
