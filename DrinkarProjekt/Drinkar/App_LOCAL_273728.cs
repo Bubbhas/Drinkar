@@ -12,36 +12,9 @@ namespace Drinkar
         DataAccess dataAccess = new DataAccess();
         public void Run()
         {
-            SetConsoleWindowToFullSize();
+            //SetConsoleWindowToFullSize();
             WelcomeText();
-<<<<<<< HEAD
-=======
-            LogInMethod();
->>>>>>> b5f41c785f1770ea3db24156d2f875a41989bf58
             PageMainMenu();
-        }
-
-        private void LogInMethod()
-        {
-            CenterText("(L)ogga in eller (S)kapa konto?");
-            string str = Console.ReadLine().ToLower();
-
-            if (str == "l")
-            {
-                ShowLogIn();
-            }
-            else if (str == "s")
-            {
-                ShowCreateProfile();
-            }
-            else
-            {
-                CenterText("Välj något av alternativen!");
-                Console.ReadKey();
-                Console.Clear();
-                WelcomeText();
-                LogInMethod();
-            }
         }
 
         private static void SetConsoleWindowToFullSize()
@@ -191,7 +164,8 @@ namespace Drinkar
                 Console.WriteLine(string.Join(",".PadRight(10), bp.Id.ToString().PadLeft(Console.WindowWidth / 2 - 10), bp.Name.PadLeft(10)));
             }
             Console.WriteLine("");
-            Console.WriteLine("Välj den drink du vill se recept på");
+            WhiteCenterTextWithoutNewLine("Välj den drink du vill se recept på");
+            Console.Clear();
             ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
 
@@ -380,7 +354,6 @@ namespace Drinkar
                 ShowAppLogo();
                 GreenCenterText("Du är nu inloggad!");
                 Console.ReadKey();
-                PageMainMenu();
             }
             else
             {

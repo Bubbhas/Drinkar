@@ -12,36 +12,9 @@ namespace Drinkar
         DataAccess dataAccess = new DataAccess();
         public void Run()
         {
-            SetConsoleWindowToFullSize();
-            WelcomeText();
-<<<<<<< HEAD
-=======
-            LogInMethod();
->>>>>>> b5f41c785f1770ea3db24156d2f875a41989bf58
+            //SetConsoleWindowToFullSize();
+            //WelcomeText();
             PageMainMenu();
-        }
-
-        private void LogInMethod()
-        {
-            CenterText("(L)ogga in eller (S)kapa konto?");
-            string str = Console.ReadLine().ToLower();
-
-            if (str == "l")
-            {
-                ShowLogIn();
-            }
-            else if (str == "s")
-            {
-                ShowCreateProfile();
-            }
-            else
-            {
-                CenterText("Välj något av alternativen!");
-                Console.ReadKey();
-                Console.Clear();
-                WelcomeText();
-                LogInMethod();
-            }
         }
 
         private static void SetConsoleWindowToFullSize()
@@ -74,17 +47,14 @@ namespace Drinkar
         }
         private void ShowCreateProfile()
         {
-            Console.WriteLine();
-            Console.Clear();
-            ShowAppLogo();
-            CenterText("Skapa ditt konto nu och få en cykel på köpet!\n");
-            WhiteCenterTextWithoutNewLine("Ange ditt önskade användarnamn: ");
+            Console.WriteLine("Skapa ditt konto nu och få en cykel på köpet!");
+            Console.WriteLine("Ange ditt önskade Användarnamn");
             string username = Console.ReadLine();
             string email = CheckValidationOnEmail();
-            WhiteCenterTextWithoutNewLine("Ange din adress: ");
+            Console.WriteLine("Ange din adress");
             string address = Console.ReadLine();
             string password = "";
-            WhiteCenterTextWithoutNewLine("Ange ditt lösenord: ");
+            Console.WriteLine("Ange ditt lösenord");
             ConsoleKeyInfo key;
             do
             {
@@ -109,23 +79,21 @@ namespace Drinkar
             if (successfullCreation)
             {
                 Console.Clear();
-                ShowAppLogo();
-                GreenCenterText("Ditt konto är skapat!");
+                Console.WriteLine("Ditt konto är skapat");
                 Console.ReadKey();
-                Console.Clear();
                 ShowLogIn();
             }
         }
         private string CheckValidationOnEmail()
         {
-            WhiteCenterTextWithoutNewLine("Ange din email: ");
+            Console.WriteLine("Ange din email");
             string email = Console.ReadLine();
             Regex regex = new Regex(@"^\w+@.+");
             Match match = regex.Match(email);
             if (!match.Success)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                RedCenterText("Ange en giltligt email!\n");
+                Console.WriteLine("Ange en giltligt email");
                 Console.ForegroundColor = ConsoleColor.Gray;
                 CheckValidationOnEmail();
             }
@@ -191,7 +159,8 @@ namespace Drinkar
                 Console.WriteLine(string.Join(",".PadRight(10), bp.Id.ToString().PadLeft(Console.WindowWidth / 2 - 10), bp.Name.PadLeft(10)));
             }
             Console.WriteLine("");
-            Console.WriteLine("Välj den drink du vill se recept på");
+            WhiteCenterTextWithoutNewLine("Välj den drink du vill se recept på");
+            Console.Clear();
             ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
 
@@ -380,7 +349,6 @@ namespace Drinkar
                 ShowAppLogo();
                 GreenCenterText("Du är nu inloggad!");
                 Console.ReadKey();
-                PageMainMenu();
             }
             else
             {
