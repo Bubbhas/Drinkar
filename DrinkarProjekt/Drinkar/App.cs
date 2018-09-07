@@ -13,18 +13,7 @@ namespace Drinkar
         public void Run()
         {
             //SetConsoleWindowToFullSize();
-            WelcomeText();
-            Console.WriteLine("(L)ogga in eller (S)kapa konto?");
-            string str = Console.ReadLine().ToLower();
-
-            if (str == "l")
-            {
-                ShowLogIn();
-            }
-            else if (str == "s")
-            {
-                ShowCreateProfile();
-            }
+            //WelcomeText();
             PageMainMenu();
         }
 
@@ -256,6 +245,20 @@ namespace Drinkar
             CenterText("Klart du är!\n");
             Console.CursorVisible = false;
             Console.ReadKey();
+            Console.Clear();
+            ShowAppLogo();
+            WhiteCenterTextWithoutNewLine("(L)ogga in eller (S)kapa konto? ");
+            string str = Console.ReadLine().ToLower();
+
+            if (str == "l")
+            {
+                ShowLogIn();
+            }
+            else if (str == "s")
+            {
+                ShowCreateProfile();
+            }
+
         }
 
         private static void ShowAppLogo()
@@ -291,16 +294,16 @@ namespace Drinkar
         
         private void ShowDrinkInstructions(int input)
         {
-            Console.WriteLine("Vill du sätta igång med drinkgörandet? (J)a eller (N)ej?");
+            WhiteCenterTextWithoutNewLine("Vill du sätta igång med drinkgörandet? (J)a eller (N)ej? ");
             string aswer = Console.ReadLine().ToLower();
-
+            Console.WriteLine();
             if (aswer == "j")
             {
                 Drink drink = dataAccess.GetDrinkInstructions(input);
-                Console.WriteLine(drink.Instructions);
+                CenterText(drink.Instructions);
 
                 Console.WriteLine("");
-                Console.WriteLine("Nu du är guru på att göra drinkar!");
+                WhiteCenterText("Nu du är guru på att göra drinkar!");
                 Console.ReadLine();
                 PageMainMenu();
             }
