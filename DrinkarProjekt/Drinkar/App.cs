@@ -46,10 +46,17 @@ namespace Drinkar
             int drinkId = rnd.Next(1, 15);
 
             Drink drink = dataAccess.GetRandomDrink(drinkId);
+            Drink drinkRecipe = dataAccess.GetDrinkRecipe(drinkId);
 
             CenterText("Din drink blir.....\n");
             WhiteCenterText($"{drink.Name}\n");
-            CenterText(drink.Description);
+            CenterText($"{drink.Description}\n");
+
+            for (int i = 0; i < drinkRecipe.Ingredient.Count; i++)
+            {
+                CenterText($"{drinkRecipe.Ingredient[i]}  {drinkRecipe.MeasuresOfIngredients[i].ToString()} cl");
+            }
+
         }
 
         private void ShowDrinksByCategory(int input)
