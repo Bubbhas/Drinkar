@@ -13,7 +13,7 @@ namespace Drinkar
         public void Run()
         {
             //SetConsoleWindowToFullSize();
-            //WelcomeText();
+            WelcomeText();
             PageMainMenu();
         }
 
@@ -47,14 +47,17 @@ namespace Drinkar
         }
         private void ShowCreateProfile()
         {
-            Console.WriteLine("Skapa ditt konto nu och få en cykel på köpet!");
-            Console.WriteLine("Ange ditt önskade Användarnamn");
+            Console.WriteLine();
+            Console.Clear();
+            ShowAppLogo();
+            CenterText("Skapa ditt konto nu och få en cykel på köpet!\n");
+            WhiteCenterTextWithoutNewLine("Ange ditt önskade användarnamn: ");
             string username = Console.ReadLine();
             string email = CheckValidationOnEmail();
-            Console.WriteLine("Ange din adress");
+            WhiteCenterTextWithoutNewLine("Ange din adress: ");
             string address = Console.ReadLine();
             string password = "";
-            Console.WriteLine("Ange ditt lösenord");
+            WhiteCenterTextWithoutNewLine("Ange ditt lösenord: ");
             ConsoleKeyInfo key;
             do
             {
@@ -79,21 +82,23 @@ namespace Drinkar
             if (successfullCreation)
             {
                 Console.Clear();
-                Console.WriteLine("Ditt konto är skapat");
+                ShowAppLogo();
+                GreenCenterText("Ditt konto är skapat!");
                 Console.ReadKey();
+                Console.Clear();
                 ShowLogIn();
             }
         }
         private string CheckValidationOnEmail()
         {
-            Console.WriteLine("Ange din email");
+            WhiteCenterTextWithoutNewLine("Ange din email: ");
             string email = Console.ReadLine();
             Regex regex = new Regex(@"^\w+@.+");
             Match match = regex.Match(email);
             if (!match.Success)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Ange en giltligt email");
+                RedCenterText("Ange en giltligt email!\n");
                 Console.ForegroundColor = ConsoleColor.Gray;
                 CheckValidationOnEmail();
             }
