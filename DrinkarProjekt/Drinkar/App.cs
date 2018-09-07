@@ -179,11 +179,11 @@ namespace Drinkar
             }
             Console.WriteLine();
             Console.ReadKey();
-            //int sameInput = input;
             
             ShowDrinkInstructions(input);
-            PageMainMenu();
-            //return sameInput;
+            Console.ReadLine();
+            //PageMainMenu();
+            
         }
 
         void ShowAllCategories()
@@ -287,11 +287,13 @@ namespace Drinkar
 
             if (aswer == "j")
             {
+                Console.ReadLine();
                 Drink drink = dataAccess.GetDrinkInstructions(input);
                 Console.WriteLine(drink.Instructions);
 
                 Console.WriteLine("");
-                Console.WriteLine("Nu du är guru på att göra drinkar!");
+                Console.WriteLine("");
+                Console.WriteLine("Nu är du en guru på att göra drinkar!");
                 Console.ReadLine();
                 PageMainMenu();
             }
