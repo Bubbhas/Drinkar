@@ -11,6 +11,9 @@ namespace Drinkar
         DataAccess dataAccess = new DataAccess();
         public void Run()
         {
+            //int largestWidth = Console.LargestWindowWidth;
+            //int largestHeight = Console.LargestWindowHeight;
+            //Console.SetWindowSize(largestWidth, largestHeight);
             WelcomeText();
             PageMainMenu();
         }
@@ -46,10 +49,19 @@ namespace Drinkar
             int drinkId = rnd.Next(1, 15);
 
             Drink drink = dataAccess.GetRandomDrink(drinkId);
+            Drink drinkRecipe = dataAccess.GetDrinkRecipe(drinkId);
 
             CenterText("Din drink blir.....\n");
             WhiteCenterText($"{drink.Name}\n");
-            CenterText(drink.Description);
+            CenterText($"{drink.Description}\n");
+
+            for (int i = 0; i < drinkRecipe.Ingredient.Count; i++)
+            {
+                CenterText($"{drinkRecipe.Ingredient[i]}  {drinkRecipe.MeasuresOfIngredients[i].ToString()} cl");
+            }
+            Console.WriteLine();
+            Console.ReadKey();
+            PageMainMenu();
         }
 
         private void ShowDrinksByCategory(int input)
@@ -151,6 +163,7 @@ namespace Drinkar
             WhiteCenterText("Välkommen!\n\n");
             CenterText("Är du törstig?\n");
             CenterText("Klart du är!\n");
+            Console.CursorVisible = false;
             Console.ReadKey();
         }
 
