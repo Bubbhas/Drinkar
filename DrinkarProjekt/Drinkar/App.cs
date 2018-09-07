@@ -12,7 +12,7 @@ namespace Drinkar
         DataAccess dataAccess = new DataAccess();
         public void Run()
         {
-            //SetConsoleWindowToFullSize();
+            SetConsoleWindowToFullSize();
             WelcomeText();
             LogInMethod();
             PageMainMenu();
@@ -184,7 +184,6 @@ namespace Drinkar
             }
             Console.WriteLine("");
             Console.WriteLine("Välj den drink du vill se recept på");
-            Console.Clear();
             ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
 
@@ -373,6 +372,7 @@ namespace Drinkar
                 ShowAppLogo();
                 GreenCenterText("Du är nu inloggad!");
                 Console.ReadKey();
+                PageMainMenu();
             }
             else
             {
