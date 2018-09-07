@@ -14,7 +14,13 @@ namespace Drinkar
         {
             //SetConsoleWindowToFullSize();
             WelcomeText();
-            Console.WriteLine("(L)ogga in eller (S)kapa konto?");
+            LogInMethod();
+            PageMainMenu();
+        }
+
+        private void LogInMethod()
+        {
+            CenterText("(L)ogga in eller (S)kapa konto?");
             string str = Console.ReadLine().ToLower();
 
             if (str == "l")
@@ -25,7 +31,14 @@ namespace Drinkar
             {
                 ShowCreateProfile();
             }
-            PageMainMenu();
+            else
+            {
+                CenterText("Välj något av alternativen!");
+                Console.ReadKey();
+                Console.Clear();
+                WelcomeText();
+                LogInMethod();
+            }
         }
 
         private static void SetConsoleWindowToFullSize()
@@ -171,7 +184,7 @@ namespace Drinkar
             }
             Console.WriteLine("");
             Console.WriteLine("Välj den drink du vill se recept på");
-            Console.Clear();
+            
             ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
 
