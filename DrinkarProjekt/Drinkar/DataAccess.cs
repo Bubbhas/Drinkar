@@ -73,6 +73,34 @@ namespace Drinkar
             }
 
         }
+        internal bool CreateProfile(string username, string email, string adress, string password)
+        {
+            bool createOrNot = false;
+
+            string sql = @"INSERT INTO User1(Name, Email, Adress, Password, PassLvl)
+                            Values(@Name, @Email, @Adress, @Password, @PassLvl)";
+            using (SqlConnection connection = new SqlConnection(conString))
+            using (SqlCommand command = new SqlCommand(sql, connection))
+            {
+                connection.Open();
+                try
+                {
+                    command.Parameters.Add(new SqlParameter("@Name", username));
+                    command.Parameters.Add(new SqlParameter("@Email", email));
+                    command.Parameters.Add(new SqlParameter("@Adress", adress));
+                    command.Parameters.Add(new SqlParameter("@Password", password));
+                    command.Parameters.Add(new SqlParameter("@PassLvl", 1));
+                    createOrNot = true;
+                }
+                catch
+                {
+                    createOrNot = false;
+                }
+                command.ExecuteNonQuery();
+            }
+            return createOrNot;
+        }
+
         internal bool TestUnderNameAndPassWord(string email, string password)
         {
             bool existOrNot = false;
@@ -153,7 +181,6 @@ namespace Drinkar
                 drink.Id = id;
                 drink.Name = name;
                 drink.Description = description;
-
 
                 return drink;
             }
