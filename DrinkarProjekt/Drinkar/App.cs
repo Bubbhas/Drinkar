@@ -113,6 +113,7 @@ namespace Drinkar
 
         private void ShowDrinkRecipe(int input)
         {
+            
             Drink drink = dataAccess.GetDrinkRecipe(input);
             WhiteCenterText($"{drink.Name}\n");
             CenterText($"{drink.Description}\n");
@@ -123,7 +124,11 @@ namespace Drinkar
             }
             Console.WriteLine();
             Console.ReadKey();
+            //int sameInput = input;
+            
+            ShowDrinkInstructions(input);
             PageMainMenu();
+            //return sameInput;
         }
 
         void ShowAllCategories()
@@ -254,14 +259,14 @@ namespace Drinkar
                 Console.Clear();
             PageMainMenu();
         }
-        private void ShowDrinkInstructions(int sameInput)
+        private void ShowDrinkInstructions(int input)
         {
             Console.WriteLine("Vill du sätta igång med drinkgörandet? (J)a eller (N)ej?");
             string aswer = Console.ReadLine().ToLower();
 
             if (aswer == "j")
             {
-                Drink drink = dataAccess.GetDrinkInstructions(sameInput);
+                Drink drink = dataAccess.GetDrinkInstructions(input);
                 Console.WriteLine(drink.Instructions);
 
                 Console.WriteLine("");

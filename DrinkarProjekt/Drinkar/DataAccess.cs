@@ -94,7 +94,7 @@ namespace Drinkar
             }
             return existOrNot;
         }
-        internal Drink GetDrinkInstructions(int sameInput)
+        internal Drink GetDrinkInstructions(int input)
         {
             string sql = @"Select Drink.Id, Drink.Name, Drink.Instructions
                             From Drink                            
@@ -105,7 +105,7 @@ namespace Drinkar
             using (SqlCommand command = new SqlCommand(sql, connection))
             {
                 connection.Open();
-                command.Parameters.Add(new SqlParameter("Id", sameInput));
+                command.Parameters.Add(new SqlParameter("Id", input));
                 SqlDataReader reader = command.ExecuteReader();
 
                 var drink = new Drink();
