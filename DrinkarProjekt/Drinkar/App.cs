@@ -152,14 +152,14 @@ namespace Drinkar
             Console.WriteLine();
             CenterText("Drinkar som du kan skapa är:");
             Console.WriteLine();
-            Console.WriteLine(" ID".PadLeft(Console.WindowWidth / 2 - 10) + "".PadRight(10) + "Namn");
+            CenterText(" ID".PadLeft(Console.WindowWidth / 2 - 10) + "".PadRight(10) + "Namn");
             Console.WriteLine();
             foreach (Drink bp in allDrink)
             {
                 Console.WriteLine(string.Join(",".PadRight(10), bp.Id.ToString().PadLeft(Console.WindowWidth / 2 - 10), bp.Name.PadLeft(10)));
             }
             Console.WriteLine("");
-            Console.WriteLine("Välj den drink du vill se recept på");
+            WhiteCenterTextWithoutNewLine("Välj den drink du vill se recept på");
             Console.Clear();
             ShowDrinkRecipe(int.Parse(Console.ReadLine()));
         }
