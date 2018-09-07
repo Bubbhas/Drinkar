@@ -55,8 +55,27 @@ namespace Drinkar
             string email = CheckValidationOnEmail();
             Console.WriteLine("Ange din adress");
             string address = Console.ReadLine();
+            string password = "";
             Console.WriteLine("Ange ditt lösenord");
-            string password = Console.ReadLine();
+            ConsoleKeyInfo key;
+            do
+            {
+                key = Console.ReadKey(true);
+
+                // Backspace Should Not Work
+                if (key.Key == ConsoleKey.Backspace)
+                {
+                    password = password.Remove(password.Length - 1);
+                    Console.Write("\b \b");
+
+                }
+                else if (key.Key != ConsoleKey.Enter)
+                {
+                    password += key.KeyChar;
+                    Console.Write("*");
+                }
+            }
+            while (key.Key != ConsoleKey.Enter);
 
             bool successfullCreation = dataAccess.CreateProfile(username, email, address, password);
             if (successfullCreation)
@@ -294,22 +313,28 @@ namespace Drinkar
                 key = Console.ReadKey(true);
 
                 // Backspace Should Not Work
-                if (key.Key != ConsoleKey.Backspace)
+                if (key.Key == ConsoleKey.Backspace)
+                {
+                    password = password.Remove(password.Length - 1);
+                    Console.Write("\b \b");
+
+                }
+                else if (key.Key != ConsoleKey.Enter)
                 {
                     password += key.KeyChar;
                     Console.Write("*");
                 }
-                else
-                {
-                    password = password.Remove(password.Length - 1);
-                    Console.Write("\b \b");
-                }
             }
             while (key.Key != ConsoleKey.Enter);
+
+            Console.WriteLine();
+
             bool access = dataAccess.TestUnderNameAndPassWord(email, password);
             if (access)
             {
-                WhiteCenterText("Du är nu inloggad!");
+                Console.Clear();
+                ShowAppLogo();
+                GreenCenterText("Du är nu inloggad!");
                 Console.ReadKey();
             }
             else
@@ -321,8 +346,11 @@ namespace Drinkar
                 ShowLogIn();
             }
         }
-
-        
-
+        private void GreenCenterText(string s)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("{0," + ((Console.WindowWidth / 2) + s.Length / 2) + "}", s);
+            Console.ResetColor();
+        }
     }
 }
