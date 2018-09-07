@@ -17,8 +17,8 @@ namespace Drinkar
         {
 
             string sql = @"SELECT Drink.Id, Drink.Name, Ingredient.Name
-                           from drink
-                            Left join IngredientToDrink on drink.id = IngredientToDrink.DrinkId
+                           from Drink
+                            Left join IngredientToDrink on Drink.id = IngredientToDrink.DrinkId
                             Left join Ingredient on IngredientToDrink.IngredientId = Ingredient.Id ";
 
             using (SqlConnection connection = new SqlConnection(conString))
