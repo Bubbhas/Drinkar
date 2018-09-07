@@ -14,8 +14,17 @@ namespace Drinkar
         {
             //SetConsoleWindowToFullSize();
             WelcomeText();
-           // ShowLogIn();
-            //ShowCreateProfile();
+            Console.WriteLine("(L)ogga in eller (S)kapa konto?");
+            string str = Console.ReadLine().ToLower();
+
+            if (str == "l")
+            {
+                ShowLogIn();
+            }
+            else if (str == "s")
+            {
+                ShowCreateProfile();
+            }
             PageMainMenu();
         }
 
