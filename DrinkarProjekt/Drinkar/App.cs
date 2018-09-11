@@ -14,10 +14,7 @@ namespace Drinkar
         {
             SetConsoleWindowToFullSize();
             WelcomeText();
-<<<<<<< HEAD
-=======
             LogInMethod();
->>>>>>> b5f41c785f1770ea3db24156d2f875a41989bf58
             PageMainMenu();
         }
 
@@ -74,7 +71,6 @@ namespace Drinkar
         }
         private void ShowCreateProfile()
         {
-            Console.WriteLine();
             Console.Clear();
             ShowAppLogo();
             CenterText("Skapa ditt konto nu och få en cykel på köpet!\n");
@@ -110,9 +106,8 @@ namespace Drinkar
             {
                 Console.Clear();
                 ShowAppLogo();
-                GreenCenterText("Ditt konto är skapat!");
+                GreenCenterText("Ditt konto är skapat");
                 Console.ReadKey();
-                Console.Clear();
                 ShowLogIn();
             }
         }
@@ -124,9 +119,7 @@ namespace Drinkar
             Match match = regex.Match(email);
             if (!match.Success)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                RedCenterText("Ange en giltligt email!\n");
-                Console.ForegroundColor = ConsoleColor.Gray;
+               RedCenterText("Ange en giltligt email!\n");
                 CheckValidationOnEmail();
             }
             return email;
@@ -191,13 +184,14 @@ namespace Drinkar
                 Console.WriteLine(string.Join(",".PadRight(10), bp.Id.ToString().PadLeft(Console.WindowWidth / 2 - 10), bp.Name.PadLeft(10)));
             }
             Console.WriteLine("");
-            Console.WriteLine("Välj den drink du vill se recept på");
+            WhiteCenterTextWithoutNewLine("Välj den drink du vill se recept på");
             ShowDrinkRecipe(int.Parse(Console.ReadLine()));
+        
         }
 
         private void ShowDrinkRecipe(int input)
         {
-            
+
             Drink drink = dataAccess.GetDrinkRecipe(input);
             WhiteCenterText($"{drink.Name}\n");
             CenterText($"{drink.Description}\n");
@@ -208,11 +202,11 @@ namespace Drinkar
             }
             Console.WriteLine();
             Console.ReadKey();
-            
+
             ShowDrinkInstructions(input);
             Console.ReadLine();
             //PageMainMenu();
-            
+
         }
 
         void ShowAllCategories()
@@ -322,7 +316,7 @@ namespace Drinkar
             Console.Write("{0," + ((Console.WindowWidth / 2) + s.Length / 2) + "}", s);
         }
 
-        
+
         private void ShowDrinkInstructions(int input)
         {
             WhiteCenterTextWithoutNewLine("Vill du sätta igång med drinkgörandet? (J)a eller (N)ej? ");
